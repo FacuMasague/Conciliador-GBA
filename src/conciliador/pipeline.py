@@ -1044,6 +1044,12 @@ def compare_excel_pdfs(
         suspects_and_no_bankable_only=False,
         no_encontrados_bankable_only=False,
     )
+    if isinstance(res.get("no_encontrados"), list):
+        res["no_encontrados"] = [
+            row
+            for row in (res.get("no_encontrados") or [])
+            if str(row.get("Tipo no encontrado", "")).upper() == "RECIBO_SIN_BANCO"
+        ]
     mem_mark("matched", {
         "validados": len(res.get("validados") or []),
         "dudosos": len(res.get("dudosos") or []),
